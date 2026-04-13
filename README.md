@@ -1,6 +1,49 @@
-# nemlig — Claude Skill til nemlig.com
+# # nemlig — Claude Skill til nemlig.com
 
 En Claude-skill til at søge produkter, administrere kurv og se ordrehistorik på nemlig.com (dansk online-dagligvarehandel).
+
+## Opsætning i Claude Code (Cloud Environment)
+
+Hvis du bruger Claude Code med cloud environment, skal du konfigurere netværkstilladelser og miljøvariabler:
+
+### 1. Opret cloud environment
+
+I Claude Code vælg "New cloud environment" med følgende indstillinger:
+
+**Name:** (vælg et navn, f.eks. "nemlig")
+
+**Network access:** Trusted (tillader alle netværksforbindelser)
+
+**Tillad disse domæner:**
+- `nemlig.com` — Nemlig API
+- `webapi.prod.knl.nemlig.it` — Nemlig Search API
+- `pypi.org` — Python packages
+- `files.pythonhosted.org` — Package files
+- `github.com` — Skill installation
+- `raw.githubusercontent.com` — GitHub raw files
+- `googleapis.com` — (valgfrit) Google Sheets import
+
+### 2. Environment variables
+
+Sæt disse variabler (eller copy/paste fra `.env`):
+
+```
+NEMLIG_USER=din@email.com
+NEMLIG_PASS=dit_password
+```
+
+⚠️ **Bemærk:** Credentials er synlige for alle i dette environment. Brug kun med fortrolig data.
+
+### 3. Setup script (valgfrit)
+
+Hvis du vil have automatisk installation af dependencies ved hver session:
+
+```bash
+#!/bin/bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+cd /home/user/nemlig-skill
+uv sync
+```
 
 ## Installation
 
