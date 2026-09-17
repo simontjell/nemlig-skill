@@ -7,7 +7,8 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(ROOT))
+# nemlig_cli is installed as a dependency of the repo's pyproject.toml; run with
+# `uv run python apps/tiles/fetch_products.py` from the repo root.
 from nemlig_cli import load_env_file, load_config_credentials, login, get_order_history, get_order_details, search_products
 
 os.chdir(ROOT)

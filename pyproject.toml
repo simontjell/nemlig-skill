@@ -1,38 +1,11 @@
 [project]
-name = "nemlig-cli"
+name = "nemlig-skill"
 version = "0.1.0"
-description = "CLI for nemlig.com grocery shopping"
+description = "Claude skill for nemlig.com grocery shopping, built on nemlig-cli"
 requires-python = ">=3.11"
 dependencies = [
-    "requests>=2.31.0",
-    "argcomplete>=3.0.0",
+    "nemlig-cli",
 ]
 
-[project.optional-dependencies]
-ai = ["anthropic>=0.40.0"]
-forms = [
-    "google-api-python-client>=2.100.0",
-    "google-auth-oauthlib>=1.1.0",
-]
-scanner = [
-    "pyzbar>=0.1.9",
-    "opencv-python>=4.8.0",
-    "Pillow>=10.0.0",
-    "openfoodfacts>=3.0.0",
-]
-all = [
-    "anthropic>=0.40.0",
-    "google-api-python-client>=2.100.0",
-    "google-auth-oauthlib>=1.1.0",
-    "openfoodfacts>=3.0.0",
-    "pyzbar>=0.1.9",
-    "opencv-python>=4.8.0",
-    "Pillow>=10.0.0",
-]
-
-[project.scripts]
-nemlig = "nemlig_cli:main"
-
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[tool.uv.sources]
+nemlig-cli = { git = "https://github.com/simontjell/nemlig-cli" }

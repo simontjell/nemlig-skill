@@ -7,7 +7,10 @@ user-invocable: true
 
 # /nemlig — nemlig.com CLI
 
-Command-line interface for nemlig.com (Danish online grocery delivery service). Single-file Python client using `requests` for HTTP and `argparse` for CLI parsing.
+Claude skill for nemlig.com (Danish online grocery delivery service). It drives the
+[nemlig-cli](https://github.com/simontjell/nemlig-cli) command-line client, which is pulled in
+as a dependency via `pyproject.toml`. Always run it as `uv run nemlig ...` from the repo root so
+`uv` resolves the dependency and the `.env` file is picked up.
 
 ## Prerequisites
 
@@ -28,7 +31,7 @@ When the user asks about nemlig.com products or basket, follow this workflow:
 
 2. **Search for products** using the search command. Always include a search term:
    ```bash
-   uv run python nemlig_cli.py search "milk"
+   uv run nemlig search "milk"
    ```
    
    The CLI will automatically load credentials from `.env`, config file, or environment variables.
@@ -43,33 +46,33 @@ When the user asks about nemlig.com products or basket, follow this workflow:
 
 3. **Get product details** to see full information (description, ingredients, allergens, etc.):
    ```bash
-   uv run python nemlig_cli.py details <product_id>
+   uv run nemlig details <product_id>
    ```
 
 4. **View current basket**:
    ```bash
-   uv run python nemlig_cli.py basket
+   uv run nemlig basket
    ```
    
    Shows items already in basket with quantities and prices.
 
 5. **Add items to basket**. Quantity is optional (defaults to 1):
    ```bash
-   uv run python nemlig_cli.py add <product_id> [--quantity N]
+   uv run nemlig add <product_id> [--quantity N]
    ```
    
    Example: `add 701025 --quantity 2` adds 2 units of product 701025 to basket.
 
 6. **View order history**:
    ```bash
-   uv run python nemlig_cli.py history
+   uv run nemlig history
    ```
    
    Lists past orders with order IDs, dates, and totals.
 
 7. **Get details of a specific past order**:
    ```bash
-   uv run python nemlig_cli.py history <order_id>
+   uv run nemlig history <order_id>
    ```
    
    Shows items, quantities, prices, and total for that order.
@@ -110,25 +113,25 @@ Product IDs are numeric. You'll see them in search results. Examples:
 
 **Find a specific product:**
 ```bash
-uv run python nemlig_cli.py search "cocio"
+uv run nemlig search "cocio"
 ```
 
 **Add something to basket after finding it:**
 ```bash
 # First search for "milk"
-uv run python nemlig_cli.py search "milk"
+uv run nemlig search "milk"
 # Note the product ID, then add it
-uv run python nemlig_cli.py add 701025 --quantity 1
+uv run nemlig add 701025 --quantity 1
 ```
 
 **Show current basket before checkout:**
 ```bash
-uv run python nemlig_cli.py basket
+uv run nemlig basket
 ```
 
 **Check what you ordered last time:**
 ```bash
-uv run python nemlig_cli.py history
+uv run nemlig history
 ```
 
 ## Error Handling
@@ -164,7 +167,7 @@ matcher en generisk forespørgsel som "mælk" eller "shampoo"):
    Brug den som primær kilde i stedet for at kalde `history` live — det er dramatisk hurtigere.
    Hvis filen mangler, eller `refreshed_at` er ældre end ~7 dage, så kør først:
    ```bash
-   uv run python nemlig_cli.py refresh-history
+   uv run nemlig refresh-history
    ```
    Kør også `refresh-history` hvis brugeren lige har lagt en ordre ind udenom skillen.
 3. **Udled attributter** fra tidligere køb, fx:
@@ -209,8 +212,8 @@ med varelinjer. Format:
 
 **Refresh:**
 ```bash
-uv run python nemlig_cli.py refresh-history           # default: seneste 20 ordrer
-uv run python nemlig_cli.py refresh-history -l 50     # flere ordrer
+uv run nemlig refresh-history           # default: seneste 20 ordrer
+uv run nemlig refresh-history -l 50     # flere ordrer
 ```
 
 Kommandoen henter ordrerne og slår hver enkelt op for varelinjer, så første refresh kan tage
@@ -304,8 +307,10 @@ Skillen understøtter gemte standardindkøbslister via `.local/standardindkoeb.j
 ## Filer
 
 - `.claude/skills/nemlig/SKILL.md` — Claude instruktioner og workflow
-- `nemlig_cli.py` — Python CLI klient
-- `pyproject.toml` — Dependencies 
+- `pyproject.toml` — Dependencies (trækker `nemlig-cli` fra GitHub)
 - `README.md` — Setup guide
 - `.env.example` — Template for miljøvariabler
 - `.local/` — Brugerens lokale data (gitignored)
+
+Selve CLI-koden bor i [simontjell/nemlig-cli](https://github.com/simontjell/nemlig-cli).
+Ændringer til kommandoer eller API-kald skal laves der, ikke her.

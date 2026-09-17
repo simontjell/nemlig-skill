@@ -1,4 +1,4 @@
-# # nemlig — Claude Skill til nemlig.com
+# nemlig — Claude Skill til nemlig.com
 
 En Claude-skill til at søge produkter, administrere kurv og se ordrehistorik på nemlig.com (dansk online-dagligvarehandel).
 
@@ -116,7 +116,7 @@ cp .env.example .env
 nano .env
 ```
 
-`.env`-filen bliver loaded automatisk når du kører nemlig_cli.
+`.env`-filen bliver loaded automatisk når du kører `uv run nemlig`.
 
 ### Metode 2: Persistent config (`~/.config/nemlig/login.json`)
 
@@ -134,7 +134,7 @@ chmod 600 ~/.config/nemlig/login.json
 ### Metode 3: CLI-flag
 
 ```bash
-uv run python nemlig_cli.py -u "din@email.com" -p "ditpassword" search "mælk"
+uv run nemlig -u "din@email.com" -p "ditpassword" search "mælk"
 ```
 
 ### Metode 4: Miljøvariabler
@@ -142,7 +142,7 @@ uv run python nemlig_cli.py -u "din@email.com" -p "ditpassword" search "mælk"
 ```bash
 export NEMLIG_USER="din@email.com"
 export NEMLIG_PASS="ditpassword"
-uv run python nemlig_cli.py search "mælk"
+uv run nemlig search "mælk"
 ```
 
 **Prioritet:** CLI-flag > Config-fil > `.env`-fil > Miljøvariabler
@@ -159,8 +159,8 @@ uv run python nemlig_cli.py search "mælk"
 ## Filer
 
 - `.claude/skills/nemlig/SKILL.md` — Claude instruktioner og workflow
-- `nemlig_cli.py` — Python CLI klient
-- `pyproject.toml` — Python dependencies
+- `pyproject.toml` — Python dependencies (trækker `nemlig-cli` fra GitHub)
+- `apps/tiles/` — dashboard-app med de mest købte varer
 - `README.md` — denne fil
 - `.env.example` — template for miljøvariabler
 - `.local/` — brugerens lokale data, bl.a. gemte indkøbslister (gitignored)
@@ -168,7 +168,7 @@ uv run python nemlig_cli.py search "mælk"
 
 ## Teknologi
 
-Skillen bruger [nemlig_cli](https://github.com/eisbaw/nemlig_cli) — en single-file Python-implementering der taler direkte med nemlig.com's API via `requests`.
+Skillen bruger [simontjell/nemlig-cli](https://github.com/simontjell/nemlig-cli) — en single-file Python-implementering der taler direkte med nemlig.com's API via `requests`. CLI'en installeres automatisk som dependency af `uv sync` / `uv run`. Selve CLI'en er oprindeligt baseret på [eisbaw/nemlig_cli](https://github.com/eisbaw/nemlig_cli).
 
 ## Licens
 
