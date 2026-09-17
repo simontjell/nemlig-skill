@@ -16,6 +16,8 @@ I Claude Code vælg "New cloud environment" med følgende indstillinger:
 
 **Tillad disse domæner:**
 - `nemlig.com` — Nemlig API
+- `www.nemlig.com` - Nemlig front page
+- `nemlig.queue-it.net` - queued access
 - `webapi.prod.knl.nemlig.it` — Nemlig Search API
 - `pypi.org` — Python packages
 - `files.pythonhosted.org` — Package files
